@@ -1,0 +1,256 @@
+--
+-- PostgreSQL database dump
+--
+
+SET statement_timeout = 0;
+SET lock_timeout = 0;
+SET client_encoding = 'UTF8';
+SET standard_conforming_strings = on;
+SET check_function_bodies = false;
+SET client_min_messages = warning;
+
+--
+-- Name: car_rental; Type: SCHEMA; Schema: -; Owner: postgres
+--
+
+CREATE SCHEMA car_rental;
+
+
+ALTER SCHEMA car_rental OWNER TO postgres;
+
+--
+-- Name: plpgsql; Type: EXTENSION; Schema: -; Owner: 
+--
+
+CREATE EXTENSION IF NOT EXISTS plpgsql WITH SCHEMA pg_catalog;
+
+
+--
+-- Name: EXTENSION plpgsql; Type: COMMENT; Schema: -; Owner: 
+--
+
+COMMENT ON EXTENSION plpgsql IS 'PL/pgSQL procedural language';
+
+
+SET search_path = car_rental, pg_catalog;
+
+SET default_tablespace = '';
+
+SET default_with_oids = false;
+
+--
+-- Name: car; Type: TABLE; Schema: car_rental; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE car (
+    car_id integer NOT NULL,
+    make character(25) NOT NULL
+);
+
+
+ALTER TABLE car_rental.car OWNER TO postgres;
+
+--
+-- Name: inventory; Type: TABLE; Schema: car_rental; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE inventory (
+    location_id integer NOT NULL,
+    car_id integer NOT NULL,
+    inventory_id integer NOT NULL,
+    is_rented boolean DEFAULT false NOT NULL
+);
+
+
+ALTER TABLE car_rental.inventory OWNER TO postgres;
+
+--
+-- Name: location; Type: TABLE; Schema: car_rental; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE location (
+    location_id integer NOT NULL,
+    airport character(30) NOT NULL,
+    city character(30) NOT NULL
+);
+
+
+ALTER TABLE car_rental.location OWNER TO postgres;
+
+--
+-- Name: price; Type: TABLE; Schema: car_rental; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE price (
+    car_id integer NOT NULL,
+    location_id integer NOT NULL,
+    season_id integer NOT NULL,
+    price double precision NOT NULL
+);
+
+
+ALTER TABLE car_rental.price OWNER TO postgres;
+
+--
+-- Name: season; Type: TABLE; Schema: car_rental; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE season (
+    season_id integer NOT NULL,
+    location_id integer NOT NULL,
+    season_name character(25) NOT NULL,
+    start_month integer NOT NULL,
+    start_day integer NOT NULL,
+    end_month integer NOT NULL,
+    end_day integer NOT NULL
+);
+
+
+ALTER TABLE car_rental.season OWNER TO postgres;
+
+--
+-- Data for Name: car; Type: TABLE DATA; Schema: car_rental; Owner: postgres
+--
+
+COPY car (car_id, make) FROM stdin;
+1	Mercedes                 
+2	Lada                     
+3	VW Golf                  
+4	Toyota Corolla           
+\.
+
+
+--
+-- Data for Name: inventory; Type: TABLE DATA; Schema: car_rental; Owner: postgres
+--
+
+COPY inventory (location_id, car_id, inventory_id, is_rented) FROM stdin;
+1	1	1	f
+1	2	2	f
+1	1	3	f
+2	3	4	f
+2	3	6	f
+2	2	5	f
+3	4	7	f
+4	1	8	f
+4	4	9	f
+3	3	10	f
+\.
+
+
+--
+-- Data for Name: location; Type: TABLE DATA; Schema: car_rental; Owner: postgres
+--
+
+COPY location (location_id, airport, city) FROM stdin;
+1	Charles DeGaulle              	Paris                         
+2	Heathrow                      	London                        
+3	Narita                        	Tokyo                         
+4	Logan                         	Boston                        
+\.
+
+
+--
+-- Data for Name: price; Type: TABLE DATA; Schema: car_rental; Owner: postgres
+--
+
+COPY price (car_id, location_id, season_id, price) FROM stdin;
+1	1	1	20.9899999999999984
+1	1	2	30.9899999999999984
+2	1	1	16.9899999999999984
+2	1	2	25.9899999999999984
+2	2	1	15.9900000000000002
+2	2	2	22.9899999999999984
+3	2	1	10.9900000000000002
+3	2	2	17.9899999999999984
+4	3	1	25.9899999999999984
+4	3	2	30.9899999999999984
+3	3	1	18.9899999999999984
+3	3	2	28.9899999999999984
+1	4	1	20.9899999999999984
+1	4	2	30.9899999999999984
+4	4	1	15.9900000000000002
+4	4	2	25.9899999999999984
+\.
+
+
+--
+-- Data for Name: season; Type: TABLE DATA; Schema: car_rental; Owner: postgres
+--
+
+COPY season (season_id, location_id, season_name, start_month, start_day, end_month, end_day) FROM stdin;
+1	1	low                      	1	1	6	30
+2	1	high                     	7	1	12	31
+1	2	low                      	1	1	5	31
+2	2	high                     	6	1	12	31
+1	3	low                      	1	1	5	31
+2	3	high                     	6	1	12	31
+1	4	low                      	1	1	5	31
+2	4	high                     	6	1	12	31
+\.
+
+
+--
+-- Name: pk_car; Type: CONSTRAINT; Schema: car_rental; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY car
+    ADD CONSTRAINT pk_car PRIMARY KEY (car_id);
+
+
+--
+-- Name: pk_inventory; Type: CONSTRAINT; Schema: car_rental; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY inventory
+    ADD CONSTRAINT pk_inventory PRIMARY KEY (inventory_id);
+
+
+--
+-- Name: pk_location; Type: CONSTRAINT; Schema: car_rental; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY location
+    ADD CONSTRAINT pk_location PRIMARY KEY (location_id);
+
+
+--
+-- Name: pk_price; Type: CONSTRAINT; Schema: car_rental; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY price
+    ADD CONSTRAINT pk_price PRIMARY KEY (car_id, location_id, season_id);
+
+
+--
+-- Name: pk_season; Type: CONSTRAINT; Schema: car_rental; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY season
+    ADD CONSTRAINT pk_season PRIMARY KEY (season_id, location_id);
+
+
+--
+-- Name: car_rental; Type: ACL; Schema: -; Owner: postgres
+--
+
+REVOKE ALL ON SCHEMA car_rental FROM PUBLIC;
+REVOKE ALL ON SCHEMA car_rental FROM postgres;
+GRANT ALL ON SCHEMA car_rental TO postgres;
+GRANT ALL ON SCHEMA car_rental TO PUBLIC;
+
+
+--
+-- Name: public; Type: ACL; Schema: -; Owner: postgres
+--
+
+REVOKE ALL ON SCHEMA public FROM PUBLIC;
+REVOKE ALL ON SCHEMA public FROM postgres;
+GRANT ALL ON SCHEMA public TO postgres;
+GRANT ALL ON SCHEMA public TO PUBLIC;
+
+
+--
+-- PostgreSQL database dump complete
+--
+

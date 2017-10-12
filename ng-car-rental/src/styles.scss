@@ -1,0 +1,25 @@
+body {
+  background-color: rgb(230, 241, 243);
+}
+header, footer {
+  height:25%;
+  border-bottom: 1px solid blue;
+  margin-left: auto;
+  margin-right: auto;
+  margin-bottom: 10px;
+  width: 95%;
+}
+header h1 {
+  margin-left: 10%;
+}
+footer {
+  height:10%;
+  border-top: 1px solid blue;
+  margin-top: 30px;
+}
+.copyright {
+  float: left;
+}
+.license {
+  float: right;
+}

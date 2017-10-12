@@ -1,0 +1,63 @@
+div.page-container {
+  text-align:center;
+}
+
+h2 {
+  background-color: blue;
+  color: white;
+  margin: auto;
+  width: 80%;
+  border-radius: 10px;
+  text-align: center;
+}
+
+div.fgroup {
+  margin:30px 10px;
+}
+
+div.form-container {
+  border: 2px solid blue;
+  margin: auto;
+  width: 30%;
+  margin-top: 10px;
+  border-radius: 20px;
+}
+
+label {
+  display: block;
+  font-weight: bold;
+  padding-bottom: 4px;
+}
+
+select {
+  font-size: 18px;
+}
+
+button {
+  font-size: 18px;
+  border-radius: 5px;
+  width: 30%;
+}
+
+div.table-container {
+  margin: auto;
+  width: 30%;
+  padding-top: 30px;
+}
+
+table {
+  margin: auto;
+  width: 80%;
+  border: 2px solid black;
+  border-collapse: collapse;
+}
+
+tr:nth-child(even) {
+  background-color: lightgray;
+}
+
+caption {
+  font-size: 30px;
+  font-weight: bolder;
+  margin-bottom: 10px;
+}
